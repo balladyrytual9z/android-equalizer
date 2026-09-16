@@ -168,11 +168,11 @@
                     android:textSize="13sp"/>
             </LinearLayout>
 
-            <!-- 刻度 + 频段推子区 -->
+            <!-- 刻度 + 频段推子区 (固定高度, 避免在 ScrollView 里被视口撑满导致下方卡片不可见) -->
             <LinearLayout
                 android:id="@+id/eqBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 
