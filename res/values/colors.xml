@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0B0F14</color>
+    <color name="card">#151A21</color>
+    <color name="line">#262E3C</color>
+    <color name="chipBg">#1B212B</color>
+    <color name="chipBgOn">#16332F</color>
+    <color name="chipBgPressed">#232B38</color>
+    <color name="text">#E7ECF3</color>
+    <color name="dim">#8A94A6</color>
+    <color name="accent">#14B8A6</color>
+    <color name="accentBright">#5EEAD4</color>
+    <color name="iconBg">#0F766E</color>
+</resources>

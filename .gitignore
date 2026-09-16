@@ -1,0 +1,20 @@
+# ===== 构建产物 =====
+build/
+
+# ===== 签名密钥库(构建脚本首次运行会自动重新生成, 但签名会变, 需卸载重装) =====
+*.keystore
+*.jks
+
+# ===== 本地环境配置 =====
+local.properties
+
+# ===== IDE =====
+.idea/
+*.iml
+.vscode/
+.gradle/
+captures/
+
+# ===== 系统杂项 =====
+.DS_Store
+Thumbs.db
