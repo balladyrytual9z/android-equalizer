@@ -1,12 +1,11 @@
 
-name: Build GlobalEQ APK
+name: Build Global EQ APK
 
 on:
   workflow_dispatch:
   push:
-
-permissions:
-  contents: read
+    paths:
+      - ".github/workflows/build.yml"
 
 jobs:
   build:
@@ -20,24 +19,38 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: "21"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
-        with:
-          packages: ''
+      - name: Install Android SDK tools
+        uses: android-actions/setup-android@v3
 
-      - name: Install Android packages
+      - name: Install required SDK packages
         run: |
-          sdkmanager --install \
-            "platforms;android-34" \
-            "build-tools;34.0.0" \
-            "build-tools;37.0.0"
+          sdkmanager "platforms;android-34"
+          sdkmanager "build-tools;34.0.0"
+          sdkmanager "build-tools;37.0.0"
+
+      - name: Make build script Linux-compatible
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("build_app.sh")
+          s = p.read_text()
+          s = s.replace('SDK="$LOCALAPPDATA/Android/Sdk"',
+                        'SDK="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"')
+          s = s.replace('JDK=/c/users/xios/apps/jdk-21.0.12.1+1/bin',
+                        'JDK="${JAVA_HOME}/bin"')
+          s = s.replace('aapt2.exe', 'aapt2')
+          s = s.replace('java.exe', 'java')
+          s = s.replace('jar.exe', 'jar')
+          s = s.replace('apksigner.bat', 'apksigner')
+          p.write_text(s)
+          PY
+          chmod +x build_app.sh
 
       - name: Build APK
-        run: |
-          chmod +x build_app.sh
-          bash build_app.sh
+        run: bash build_app.sh
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -45,4 +58,3 @@ jobs:
           name: GlobalEQ-APK
           path: build/GlobalEQ.apk
           if-no-files-found: error
-          retention-days: 7
